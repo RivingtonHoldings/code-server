@@ -38,12 +38,12 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - path: {{ . }}
-            pathType: Prefix
+          - path: {{ tpl .path . | quote }}
+            pathType: {{ .pathType | default "Prefix" }}
             backend:
               service:
                 name: {{ $fullName }}
-                port: 
+                port:
                   number: {{ $svcPort }}
           {{- end }}
     {{- end }}
